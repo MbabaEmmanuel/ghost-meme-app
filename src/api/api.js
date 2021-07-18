@@ -22,12 +22,31 @@ export default {
     instance({
         'method': 'POST',
         'url': '/users',
-        param: {
+        data: {
             name: user.name,
             email: user.email,
             phone: user.phone,
             username: user.username,
-            imageBase64: user.imageBase64
+            imageBase64: null
+        },
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            return json;
+        }]
+    }),
+    postNewMeme: (meme) =>
+    instance({
+        'method': 'POST',
+        'url': '/meme',
+        data: {
+            owner: meme.owner,
+            receiver: meme.receiver,
+            expiredAt: meme.expiredAt,
+            description: meme.description,
+            private: true,
+            replyTo: null,
+            imageURL: null,
+            imageBase: null
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);

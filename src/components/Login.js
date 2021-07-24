@@ -5,7 +5,6 @@ import UseToken from './UseToken';
 import api from '../api/api';
 import UserApi from '../api/UserApi';
 
-
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
     const [registerFailureMessage, setRegisterFailureMessage] = useState();
@@ -39,7 +38,7 @@ function Login({ setToken }) {
       }
   }
 
-    function handleRegisterValidation(e) {
+    async function handleRegisterValidation(e) {
       let firstName = e.target[0].value;
       let lastName = e.target[1].value
       let email = e.target[2].value;
@@ -69,7 +68,7 @@ function Login({ setToken }) {
         setRegisterFailureMessage("Phone number is required");
         return false;
       } 
-      
+/*      
       if(phoneNumber){    
         var mobPattern = /^(?:(?:\\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[789]\d{9}$/;    
         if (!mobPattern.test(phoneNumber)) {    
@@ -77,7 +76,7 @@ function Login({ setToken }) {
           return false;
         } 
       }
-        
+*/        
       if(!username){
         setRegisterFailureMessage("Username is required");
         return false;
@@ -94,9 +93,11 @@ function Login({ setToken }) {
         phone: phoneNumber,
         username: username
       };
+
         //console.log(user);
-      setResponse(api.postNewUser(user));
-      console.log(response);
+      let await_variable = await api.postNewUser(user);
+      setResponse(await_variable);
+      console.log(await_variable);
       
       return true;
     }
@@ -115,14 +116,13 @@ function Login({ setToken }) {
     }
 
     async function handleRegisterSubmit(e) {
-      let my_status = handleRegisterValidation(e);
-      console.log("reached!\n");
+      let my_status = await handleRegisterValidation(e);
       if(my_status){
         const token = "Successfully signed in";
 
         setToken(token);
         console.log(my_status);
-        // history.push("/");
+        history.push("/");
       } else {
         console.log("failed!\n");
         console.log(my_status);

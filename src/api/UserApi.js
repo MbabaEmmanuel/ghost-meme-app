@@ -9,10 +9,20 @@ const instance = axios.create({
 });
 
 export default {
-    getAllMemes: () => 
+    getAllUsers: () => 
     instance({
         'method':'GET',
-        'url':'/memes',
+        'url':'/users',
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }],
+    }),
+    getUser: (userId) => 
+    instance({
+        'method':'GET',
+        'url':'/users' + userId,
         transformResponse: [function (data) {
             const json = JSON.parse(data);
             return json;
@@ -34,23 +44,4 @@ export default {
             return json;
         }]
     }),
-    postNewMeme: (meme) =>
-    instance({
-        'method': 'POST',
-        'url': '/memes',
-        data: {
-            owner: meme.owner,
-            receiver: meme.receiver,
-            expiredAt: meme.expiredAt,
-            description: meme.description,
-            private: true,
-            replyTo: null,
-            imageURL: null,
-            imageBase: null
-        },
-        transformResponse: [function (data) {
-            const json = JSON.parse(data);
-            return json;
-        }]
-    })
 }

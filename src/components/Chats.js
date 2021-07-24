@@ -1,4 +1,5 @@
 import api from "../api/api";
+import UserApi from '../api/UserApi';
 
 function Chats() {
 
@@ -20,7 +21,11 @@ function Chats() {
             imageBase64: null
         };
         console.log(meme);
-        await api.postNewMeme(meme);
+        try {
+
+            const response = await api.postNewMeme(meme);
+        } catch(err){console.log("The following error has occured " + err)}
+        //await UserApi.getAllUsers();
     }
     return (
         <>

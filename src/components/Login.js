@@ -3,6 +3,7 @@ import '../App.css';
 import { useHistory } from "react-router-dom";
 import UseToken from './UseToken';
 import api from '../api/api';
+import UserApi from '../api/UserApi';
 
 async function loginUser(username, password) {
     // insert logic to check username/password combo
@@ -14,15 +15,6 @@ async function loginUser(username, password) {
     }
 }
 
-async function signUpUser(firstName, lastName, email, username, password, phoneNumber) {
-  if(firstName === "fatuma" && lastName === "abdi" && email === "fatuma@gmail.com" 
-     && username === "fatumaA" && password === "123" && phoneNumber === "612-000-0000") {
-      return "successfully signed up";
-  }
-  else {
-      return null;
-  }
-}
 
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
@@ -34,6 +26,70 @@ function Login({ setToken }) {
     }
 
     let history = useHistory();
+
+    function handleRegisterValidation(e) {
+      let isFormValid = true;
+      let firstName = e.target[0].value;
+      let lastName = e.target[1].value
+      let email = e.target[2].value;
+      let phoneNumber = e.target[3].value
+      let username = e.target[4].value;
+      let password = e.target[5].value;
+
+      if(!firstName){
+        setFailureMessage("First name is required");
+        isFormValid = false;
+      }
+
+      if(!lastName){
+        setFailureMessage("Last name is required");
+        isFormValid = false;
+      }
+
+      if(!email){
+        setFailureMessage("Email address is required");
+        isFormValid = false;
+      } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+        setFailureMessage("Invalid email address.");
+        isFormValid = false;
+      }
+
+      if(!phoneNumber){
+        setFailureMessage("Phone number is required");
+        isFormValid = false;
+      } 
+      
+      if(phoneNumber){    
+        var mobPattern = /^(?:(?:\\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[789]\d{9}$/;    
+        if (!mobPattern.test(phoneNumber)) {    
+          setFailureMessage("Invalid phone number.");
+          isFormValid = false;
+        } 
+      }
+        
+      if(!username){
+        setFailureMessage("Username is required");
+        isFormValid = false;
+      }
+      
+      if(!password){
+        setFailureMessage("Password is required");
+        isFormValid = false;
+      }
+
+      if(isFormValid){
+        let user = {
+          name: firstName + ' ' + lastName,
+          email: email,
+          phone: phoneNumber,
+          username: username
+        };
+        //console.log(user);
+        api.postNewUser(user);
+      }
+      
+      return isFormValid;
+    }
 
     async function handleSubmit(e) {
         let username = e.target[0].value;
@@ -51,31 +107,12 @@ function Login({ setToken }) {
     }
 
     async function handleRegisterSubmit(e) {
-      let firstName = e.target[0].value;
-      let lastName = e.target[1].value
-      let email = e.target[2].value;
-      let phoneNumber = e.target[3].value
-      let username = e.target[4].value;
-      let password = e.target[5].value
-      
-      const token = await signUpUser(firstName, lastName, email, username, password, phoneNumber);
-    
-        if(token){
-            setToken(token);
-            history.push("/");
-        }
-        else{
-            setFailureMessage("Incorrect input fields")
-        }
+      if(handleRegisterValidation(e)){
+        const token = "Successfully signed in";
 
-      let user = {
-        name: firstName + ' ' + lastName,
-        email: email,
-        phone: phoneNumber,
-        username: username
-      };
-      //console.log(user);
-      await api.postNewUser(user);
+        setToken(token);
+        history.push("/");
+      }           
   }
     
     function registerUser() {

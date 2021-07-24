@@ -28,6 +28,15 @@ export default {
             return json;
         }],
     }),
+    getUserName: (username) => 
+    instance({
+        'method':'GET',
+        'url':'/users/' + username,
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            return json;
+        }],
+    }),
     postNewUser: (user) =>
     instance({
         'method': 'POST',

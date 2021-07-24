@@ -5,21 +5,13 @@ import UseToken from './UseToken';
 import api from '../api/api';
 import UserApi from '../api/UserApi';
 
-async function loginUser(username, password) {
-    // insert logic to check username/password combo
-    if(username === "fatuma" && password === "123") {
-        return "successfully signed in";
-    }
-    else {
-        return null;
-    }
-}
-
 
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
     const [registerFailureMessage, setRegisterFailureMessage] = useState();
     const [userRegister, setUserRegister] = useState(false);
+    const [response, setResponse] = useState();
+    let isFormValid = true;
     
     if(!setToken){
       setToken = UseToken().setToken;
@@ -27,8 +19,27 @@ function Login({ setToken }) {
 
     let history = useHistory();
 
+    function handleLoginValidation(e) {
+      let username = e.target[0].value;
+      let password = e.target[1].value
+
+      if(!username){
+        setFailureMessage("Username is required");
+        isFormValid = false;
+      }
+
+      if(!password){
+        setFailureMessage("Password is required");
+        isFormValid = false;
+      }
+
+      if(isFormValid){
+        setResponse(UserApi.getUserName(username));
+        console.log(response);
+      }
+  }
+
     function handleRegisterValidation(e) {
-      let isFormValid = true;
       let firstName = e.target[0].value;
       let lastName = e.target[1].value
       let email = e.target[2].value;
@@ -71,7 +82,7 @@ function Login({ setToken }) {
         setFailureMessage("Username is required");
         isFormValid = false;
       }
-      
+
       if(!password){
         setFailureMessage("Password is required");
         isFormValid = false;
@@ -85,17 +96,16 @@ function Login({ setToken }) {
           username: username
         };
         //console.log(user);
-        api.postNewUser(user);
+        setResponse(api.postNewUser(user));
+        console.log(response);
       }
       
       return isFormValid;
     }
 
     async function handleSubmit(e) {
-        let username = e.target[0].value;
-        let password = e.target[1].value
         
-        const token = await loginUser(username, password);
+        const token = handleLoginValidation(e);
     
         if(token){
             setToken(token);

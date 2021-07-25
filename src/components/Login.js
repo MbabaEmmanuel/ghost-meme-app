@@ -102,11 +102,12 @@ function Login({ setToken }) {
           let registerResponse = await api.postNewUser(user);
           setResponse(registerResponse);
           setToken(response.data.user.user_id);
-          console.log('success');
           isFormValid = true;
         } catch(err) {
           console.log(err.response);
-          setRegisterFailureMessage(err.response.data.error);
+          if(err.response){
+            setRegisterFailureMessage(err.response.data.error);
+          }
           isFormValid = false;
         }
       }
@@ -130,7 +131,6 @@ function Login({ setToken }) {
     async function handleRegisterSubmit(e) {
       let registrationValidation = await handleRegisterValidation(e);
       if(registrationValidation === true){
-        console.log('History');
         history.push("/");
       }           
     }

@@ -49,7 +49,6 @@ function Login({ setToken }) {
 	return isFormValid;
       }
   }
-
     async function handleSubmit(e) {
         
         const token = await handleLoginValidation(e);
@@ -61,7 +60,7 @@ function Login({ setToken }) {
             setFailureMessage("Incorrect username or password")
         }
     }
-
+  
     return (
       <div className="login-wrapper">
       <h1>Please Log In</h1>

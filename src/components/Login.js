@@ -5,7 +5,7 @@ import UseToken from './UseToken';
 import api from '../api/api';
 import UserApi from '../api/UserApi';
 
-
+//Login and Register Page for User
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
     const [registerFailureMessage, setRegisterFailureMessage] = useState();
@@ -19,6 +19,7 @@ function Login({ setToken }) {
 
     let history = useHistory();
 
+    //Validate the Login of Users, and set user information in token.
     function handleLoginValidation(e) {
       let username = e.target[0].value;
       let password = e.target[1].value
@@ -39,6 +40,7 @@ function Login({ setToken }) {
       }
   }
 
+  //Validate the Registration of Users, showing any errors to user, and and setting user information in token
     async function handleRegisterValidation(e) {
       let firstName = e.target[0].value;
       let lastName = e.target[1].value
@@ -111,10 +113,9 @@ function Login({ setToken }) {
       return isFormValid;
     }
 
+    //Function called when user submits Login form
     async function handleSubmit(e) {
-        
         const token = handleLoginValidation(e);
-    
         if(token){
             setToken(token);
             history.push("/");
@@ -124,6 +125,7 @@ function Login({ setToken }) {
         }
     }
 
+    //Function called when user submits Registration Form.
     async function handleRegisterSubmit(e) {
       if(handleRegisterValidation(e) === false){
         console.log('History');
@@ -135,6 +137,7 @@ function Login({ setToken }) {
       setUserRegister(true);
     }
     
+    //Registration Form
     if (userRegister) {
       return(
         <div className="login-wrapper">
@@ -173,6 +176,7 @@ function Login({ setToken }) {
       );
     }
 
+    //Login Form
     return (
       <div className="login-wrapper">
       <h1>Please Log In</h1>

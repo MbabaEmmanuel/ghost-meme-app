@@ -99,7 +99,8 @@ function Login({ setToken }) {
         };
 
         try {
-          let response = await api.postNewUser(user);
+          let registerResponse = await api.postNewUser(user);
+          setResponse(registerResponse);
           setToken(response.data.user.user_id);
           console.log('success');
           isFormValid = true;

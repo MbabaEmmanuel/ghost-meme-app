@@ -38,7 +38,7 @@ function Login({ setToken }) {
         setResponse(UserApi.getUserName(username));
         console.log(response);
       }
-  }
+    }
 
   //Validate the Registration of Users, showing any errors to user, and and setting user information in token
     async function handleRegisterValidation(e) {
@@ -127,11 +127,12 @@ function Login({ setToken }) {
 
     //Function called when user submits Registration Form.
     async function handleRegisterSubmit(e) {
-      if(handleRegisterValidation(e) === false){
+      let registrationValidation = await handleRegisterValidation(e);
+      if(registrationValidation === true){
         console.log('History');
         history.push("/");
       }           
-  }
+    }
     
     function registerUser() {
       setUserRegister(true);

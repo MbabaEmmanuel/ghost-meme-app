@@ -24,12 +24,12 @@ function Login({ setToken }) {
       let password = e.target[1].value
 
       if(!username){
-        setFailureMessage("Username is required");
+        setRegisterFailureMessage("Username is required");
         isFormValid = false;
       }
 
       if(!password){
-        setFailureMessage("Password is required");
+        setRegisterFailureMessage("Password is required");
         isFormValid = false;
       }
 
@@ -39,7 +39,7 @@ function Login({ setToken }) {
       }
   }
 
-    function handleRegisterValidation(e) {
+    async function handleRegisterValidation(e) {
       let firstName = e.target[0].value;
       let lastName = e.target[1].value
       let email = e.target[2].value;
@@ -48,43 +48,43 @@ function Login({ setToken }) {
       let password = e.target[5].value;
 
       if(!firstName){
-        setFailureMessage("First name is required");
+        setRegisterFailureMessage("First name is required");
         isFormValid = false;
       }
 
       if(!lastName){
-        setFailureMessage("Last name is required");
+        setRegisterFailureMessage("Last name is required");
         isFormValid = false;
       }
 
       if(!email){
-        setFailureMessage("Email address is required");
+        setRegisterFailureMessage("Email address is required");
         isFormValid = false;
       } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
-        setFailureMessage("Invalid email address.");
+        setRegisterFailureMessage("Invalid email address.");
         isFormValid = false;
       }
 
       if(!phoneNumber){
-        setFailureMessage("Phone number is required");
+        setRegisterFailureMessage("Phone number is required");
         isFormValid = false;
       } 
       
-      if(phoneNumber){    
-        var mobPattern = /^(?:(?:\\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[789]\d{9}$/;    
-        if (!mobPattern.test(phoneNumber)) {    
-          setFailureMessage("Invalid phone number.");
-          isFormValid = false;
-        } 
-      }
+      // if(phoneNumber){    
+      //   var mobPattern = /^(?:(?:\\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[789]\d{9}$/;    
+      //   if (!mobPattern.test(phoneNumber)) {    
+      //     setRegisterFailureMessage("Invalid phone number.");
+      //     isFormValid = false;
+      //   } 
+      // }
         
       if(!username){
-        setFailureMessage("Username is required");
+        setRegisterFailureMessage("Username is required");
         isFormValid = false;
       }
 
       if(!password){
-        setFailureMessage("Password is required");
+        setRegisterFailureMessage("Password is required");
         isFormValid = false;
       }
 
@@ -95,9 +95,17 @@ function Login({ setToken }) {
           phone: phoneNumber,
           username: username
         };
-        //console.log(user);
-        setResponse(api.postNewUser(user));
-        console.log(response);
+
+        try {
+          let response = await api.postNewUser(user);
+          setToken(response.data.user.user_id);
+          console.log('success');
+          isFormValid = true;
+        } catch(err) {
+          console.log(err.response);
+          setRegisterFailureMessage(err.response.data.error);
+          isFormValid = false;
+        }
       }
       
       return isFormValid;
@@ -117,10 +125,8 @@ function Login({ setToken }) {
     }
 
     async function handleRegisterSubmit(e) {
-      if(handleRegisterValidation(e)){
-        const token = "Successfully signed in";
-
-        setToken(token);
+      if(handleRegisterValidation(e) === false){
+        console.log('History');
         history.push("/");
       }           
   }
@@ -134,34 +140,34 @@ function Login({ setToken }) {
         <div className="login-wrapper">
           <h1>Please Sign Up</h1>
           <form onSubmit={handleRegisterSubmit}>
-          <label>
+            <label>
               <p>First Name</p>
-              <input type="text"/>
             </label>
+              <input type="text"/>
             <label>
               <p>Last Name</p>
-              <input type="text"/>
             </label>
+              <input type="text"/>
             <label>
               <p>Email</p>
-              <input type="text"/>
             </label>
+              <input type="email"/>
             <label>
               <p>Phone Number</p>
-              <input type="text"/>
             </label>
+              <input type="telephone"/>
             <label>
               <p>Username</p>
-              <input type="text"/>
             </label>
+              <input type="text"/>
             <label>
               <p>Password</p>
-              <input type="password"/>
             </label>
+              <input type="password"/>
             <div>
               <button type="submit">Submit</button>
             </div>
-            <p>{failureMessage}</p>
+            <p>{registerFailureMessage}</p>
           </form>
         </div>
       );
@@ -183,7 +189,7 @@ function Login({ setToken }) {
           <button type="submit">Submit</button>
           <button onClick={registerUser} type="button">Need to Register</button>
         </div>
-        <p>{setRegisterFailureMessage}</p>
+        <p>{failureMessage}</p>
       </form>
     </div>
     )

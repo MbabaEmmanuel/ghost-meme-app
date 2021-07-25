@@ -31,7 +31,6 @@ export default {
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);
-            console.log("here!");
             return json;
         }]
     }),

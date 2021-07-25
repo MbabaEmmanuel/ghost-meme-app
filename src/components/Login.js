@@ -5,6 +5,7 @@ import UseToken from './UseToken';
 import api from '../api/api';
 import UserApi from '../api/UserApi';
 
+
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
     const [registerFailureMessage, setRegisterFailureMessage] = useState();
@@ -38,7 +39,7 @@ function Login({ setToken }) {
       }
   }
 
-    async function handleRegisterValidation(e) {
+    function handleRegisterValidation(e) {
       let firstName = e.target[0].value;
       let lastName = e.target[1].value
       let email = e.target[2].value;
@@ -47,59 +48,59 @@ function Login({ setToken }) {
       let password = e.target[5].value;
 
       if(!firstName){
-        setRegisterFailureMessage("First name is required");
-        return false;
+        setFailureMessage("First name is required");
+        isFormValid = false;
       }
 
       if(!lastName){
-        setRegisterFailureMessage("Last name is required");
-        return false;
+        setFailureMessage("Last name is required");
+        isFormValid = false;
       }
 
       if(!email){
-        setRegisterFailureMessage("Email address is required");
-        return false;
+        setFailureMessage("Email address is required");
+        isFormValid = false;
       } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
-        setRegisterFailureMessage("Invalid email address.");
-        return false;
+        setFailureMessage("Invalid email address.");
+        isFormValid = false;
       }
 
       if(!phoneNumber){
-        setRegisterFailureMessage("Phone number is required");
-        return false;
+        setFailureMessage("Phone number is required");
+        isFormValid = false;
       } 
-/*      
+      
       if(phoneNumber){    
         var mobPattern = /^(?:(?:\\+|0{0,2})91(\s*[\\-]\s*)?|[0]?)?[789]\d{9}$/;    
         if (!mobPattern.test(phoneNumber)) {    
-          setRegisterFailureMessage("Invalid phone number.");
-          return false;
+          setFailureMessage("Invalid phone number.");
+          isFormValid = false;
         } 
       }
-*/        
+        
       if(!username){
-        setRegisterFailureMessage("Username is required");
-        return false;
+        setFailureMessage("Username is required");
+        isFormValid = false;
       }
 
       if(!password){
-        setRegisterFailureMessage("Password is required");
-        return false;
+        setFailureMessage("Password is required");
+        isFormValid = false;
       }
 
-      let user = {
-        name: firstName + ' ' + lastName,
-        email: email,
-        phone: phoneNumber,
-        username: username
-      };
-
+      if(isFormValid){
+        let user = {
+          name: firstName + ' ' + lastName,
+          email: email,
+          phone: phoneNumber,
+          username: username
+        };
         //console.log(user);
-      let await_variable = await api.postNewUser(user);
-      setResponse(await_variable);
-      console.log(await_variable);
+        setResponse(api.postNewUser(user));
+        console.log(response);
+      }
       
-      return true;
+      return isFormValid;
     }
 
     async function handleSubmit(e) {
@@ -116,16 +117,11 @@ function Login({ setToken }) {
     }
 
     async function handleRegisterSubmit(e) {
-      let my_status = await handleRegisterValidation(e);
-      if(my_status){
+      if(handleRegisterValidation(e)){
         const token = "Successfully signed in";
 
         setToken(token);
-        console.log(my_status);
         history.push("/");
-      } else {
-        console.log("failed!\n");
-        console.log(my_status);
       }           
   }
     
@@ -148,7 +144,7 @@ function Login({ setToken }) {
             </label>
             <label>
               <p>Email</p>
-              <input type="email"/>
+              <input type="text"/>
             </label>
             <label>
               <p>Phone Number</p>
@@ -165,7 +161,7 @@ function Login({ setToken }) {
             <div>
               <button type="submit">Submit</button>
             </div>
-            <p>{registerFailureMessage}</p>
+            <p>{failureMessage}</p>
           </form>
         </div>
       );
@@ -187,7 +183,7 @@ function Login({ setToken }) {
           <button type="submit">Submit</button>
           <button onClick={registerUser} type="button">Need to Register</button>
         </div>
-        <p>{failureMessage}</p>
+        <p>{setRegisterFailureMessage}</p>
       </form>
     </div>
     )

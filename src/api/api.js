@@ -8,6 +8,32 @@ const instance = axios.create({
     },
 });
 
+function generateReceivedUrl(userId){
+    let myQueryObject = { "receiver": userId };
+    let myQuery = encodeURIComponent(JSON.stringify(myQueryObject));
+    return "/memes/search?match=" + myQuery;
+}
+
+function generateSentUrl(userId){
+    let myQueryObject = { "owner": userId };
+    let myQuery = encodeURIComponent(JSON.stringify(myQueryObject));
+    return "/memes/search?match=" + myQuery;
+}
+
+function generateMentionsUrl(username){
+    const myRegexQueryObject = {
+        "description": "@" + username,
+    }
+    const myRegexQuery = encodeURIComponent(JSON.stringify(myRegexQueryObject))
+    return "/memes/search?regexMatch=" + myRegexQuery
+}
+
+function generateCommentsUrl(memeIds){
+    let myQueryObject = { "replyTo": memeIds.join('|') };
+    let myQuery = encodeURIComponent(JSON.stringify(myQueryObject));
+    return "/memes/search?regexMatch=" + myQuery;
+}
+
 export default {
     getAllMemes: () => 
     instance({
@@ -17,23 +43,6 @@ export default {
             const json = JSON.parse(data);
             return json;
         }],
-    }),
-    postNewUser: (user) =>
-    instance({
-        'method': 'POST',
-        'url': '/users',
-        data: {
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            username: user.username,
-            imageBase64: null
-        },
-        transformResponse: [function (data) {
-            const json = JSON.parse(data);
-            console.log("here!");
-            return json;
-        }]
     }),
     postNewMeme: (meme) =>
     instance({
@@ -46,11 +55,64 @@ export default {
             description: meme.description,
             private: true,
             replyTo: null,
-            imageURL: null,
-            imageBase: null
+            imageUrl: meme.imageUrl,
+            imageBase64: null
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);
+            return json;
+        }]
+    }),
+    getMemesReceivedByUser: (userId) =>
+    instance({
+        'method': 'GET',
+        'url': generateReceivedUrl(userId),
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }]
+    }),
+    getMemesSentByUser: (userId) =>
+        instance({
+            'method': 'GET',
+            'url': generateSentUrl(userId),
+            transformResponse: [function (data) {
+                const json = JSON.parse(data);
+                console.log(json);
+                return json;
+            }]
+        }),
+    getAllUserMentions: (username) =>
+    instance({
+        'method': 'GET',
+        'url': generateMentionsUrl(username),
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }]
+    }),
+    getAllCommentsOnMemes: (memeIds) =>
+    instance({
+        'method': 'GET',
+        'url': generateCommentsUrl(memeIds),
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }]
+    }),
+    updateMeme: (memeId, expiredAt) =>
+    instance({
+        'method': 'PUT',
+        'url': '/memes/' + memeId,
+        data: {
+            expiredAt: expiredAt
+        },
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
             return json;
         }]
     })

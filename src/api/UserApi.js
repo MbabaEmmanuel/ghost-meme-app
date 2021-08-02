@@ -22,7 +22,7 @@ export default {
     getUser: (userId) => 
     instance({
         'method':'GET',
-        'url':'/users' + userId,
+        'url':'/users/' + userId,
         transformResponse: [function (data) {
             const json = JSON.parse(data);
             return json;

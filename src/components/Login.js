@@ -2,15 +2,13 @@ import { useState } from 'react';
 import '../App.css';
 import { useHistory } from "react-router-dom";
 import UseToken from './UseToken';
-import api from '../api/api';
 import UserApi from '../api/UserApi';
 
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
-    const [registerFailureMessage, setRegisterFailureMessage] = useState();
-    const [userRegister, setUserRegister] = useState(false);
     const [response, setResponse] = useState();
-    let isFormValid = true;
+
+    let userValid = true;
     
     if(!setToken){
       setToken = UseToken().setToken;
@@ -25,40 +23,41 @@ function Login({ setToken }) {
     async function handleLoginValidation(e) {
       let username = e.target[0].value;
       let password = e.target[1].value
-
+      userValid = true;
+      
       if(!username){
         setFailureMessage("Username is required");
-        isFormValid = false;
+        userValid = false;
       }
-
-      if(!password){
+      else if(!password){
         setFailureMessage("Password is required");
-        isFormValid = false;
+        userValid = false;
       }
-
-      if(isFormValid) {
-	try {
-            let usr_status = await UserApi.getUserName(username);
-	    setResponse(usr_status);
-            console.log(usr_status);
-	    isFormValid = true;
-	} catch(e) {
-            console.log(e);
-	    isFormValid = false;
-	}
-	return isFormValid;
-      }
-  }
-    async function handleSubmit(e) {
-        
-        const token = await handleLoginValidation(e);
-    
-        if(token) {
-            setToken(token);
-            history.push("/");
-        } else {
-            setFailureMessage("Incorrect username or password")
+      
+      if(userValid) {
+        try {
+          let userResponse = await UserApi.getUserName(username);
+          setResponse(userResponse.data.user);
+          userValid = userResponse.data.user;
         }
+        catch(e) {
+          console.log(e);
+          userValid = false;
+        }
+      }
+      return userValid;
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const token = await handleLoginValidation(e);
+
+      if(token) {
+          setToken(token);
+          history.push("/");
+      } else {
+          setFailureMessage("Incorrect username or password")
+      }
     }
   
     return (

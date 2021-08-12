@@ -8,6 +8,27 @@ const instance = axios.create({
     },
 });
 
+function occurrences(string, subString, allowOverlapping) {
+
+    string += "";
+    subString += "";
+    if (subString.length <= 0) return (string.length + 1);
+
+    var n = 0,
+        pos = 0,
+        step = allowOverlapping ? 1 : subString.length;
+
+    while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) {
+            ++n;
+            pos += step;
+        } else break;
+    }
+    return n;
+}
+
+
 function generateReceivedUrl(userId){
     let myQueryObject = { "receiver": userId };
     let myQuery = encodeURIComponent(JSON.stringify(myQueryObject));
@@ -115,5 +136,23 @@ export default {
             console.log(json);
             return json;
         }]
+    }),
+
+    getCountForID: (str) =>
+    instance({
+        'method':'GET',
+        'url':'/memes',
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+	    var queryStr = " ";
+            for(var cnt = 0; cnt < json.memes.length; cnt++) {
+                queryStr = queryStr + json.memes[cnt].description + " ";
+            }
+	    console.log(queryStr);
+            let results = occurrences(queryStr, str, true);
+            return results;
+        }],
     })
 }
+
+

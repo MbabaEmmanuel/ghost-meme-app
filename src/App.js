@@ -11,13 +11,10 @@ import './App.css';
 import { Route, NavLink, Router } from "react-router-dom";
 import UseToken from './components/UseToken';
 import history from "./History";
-
-import useDarkMode from 'use-dark-mode';
-import DarkModeToggle from "react-dark-mode-toggle";
+import { useEffect} from 'react'
 
 function App() {
   const token = UseToken().token;
-  const darkMode = useDarkMode(true);
   
   return (
     <Router history={history}>
@@ -31,7 +28,6 @@ function App() {
           {token ? null : <li><NavLink to="/spotlight">Spotlight</NavLink></li>}
           {token ? null : <li><NavLink to="/login">Login</NavLink></li>}
           {token ? null : <li><NavLink to="/register">Register</NavLink></li>}
-          <li><DarkModeToggle onChange={darkMode.toggle} checked={darkMode.value} size={40} /></li>
         </ul>
       </div>
       <div>
@@ -44,16 +40,15 @@ function App() {
         <Route exact path="/Spotlight" component={Spotlight} />
         <Route exact path="/logout" component={Logout} />
 	      <Route exact path="/register" component={Register} />
-        <Route exact path="/editAccount" component={EditAccount} />
         <Route exact path="/notifications" component={Notifications} />
         <Route exact path="/chats/:name" component={FullConversation} />
         
+
+
+        
       </div>
     </Router>
-   
-    
-  );
-}
+  )
+  }
 
 export default App;
-

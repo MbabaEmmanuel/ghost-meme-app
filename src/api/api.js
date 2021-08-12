@@ -8,6 +8,7 @@ const instance = axios.create({
     },
 });
 
+
 function occurrences(string, subString, allowOverlapping) {
 
     string += "";
@@ -55,6 +56,13 @@ function generateCommentsUrl(memeIds){
     return "/memes/search?regexMatch=" + myQuery;
 }
 
+function findPublicMemes() {
+    let myQueryObject = { "private": false }
+    let myQuery = encodeURIComponent(JSON.stringify(myQueryObject))
+    let myURL = "/memes/search?match=" + myQuery
+    return myURL;
+}
+
 export default {
     getAllMemes: () => 
     instance({
@@ -77,7 +85,7 @@ export default {
             private: true,
             replyTo: null,
             imageUrl: meme.imageUrl,
-            imageBase64: meme.imageBase64,
+            imageBase64: null
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);
@@ -137,7 +145,16 @@ export default {
             return json;
         }]
     }),
-
+    getPublicMemes: (memeId) =>
+    instance({
+        'method': 'GET',
+        'url': findPublicMemes(memeId),
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }]
+    }),
     getCountForID: (str) =>
     instance({
         'method':'GET',
@@ -154,5 +171,4 @@ export default {
         }],
     })
 }
-
 

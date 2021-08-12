@@ -4,6 +4,9 @@ import UseToken from './UseToken';
 import Login from './Login';
 import '../App.css'
 
+
+ 
+
 function Chats() {
     const { token, setToken } = UseToken();
 
@@ -14,6 +17,7 @@ function Chats() {
 
     return (
         <div className="chats-wrapper">
+
             {/* refreshes page every 5 seconds */}
             {/* <meta http-equiv="refresh" content="5" /> */}
 
@@ -21,7 +25,5 @@ function Chats() {
             <ChatView token={token} />
         </div>
     );
-}
-
+    }
 export default Chats;
-

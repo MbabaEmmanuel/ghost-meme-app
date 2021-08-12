@@ -8,7 +8,7 @@ import { store } from 'react-notifications-component';
 
 
 
-function Notifications (props, DarkMode) {
+function Notifications (props) {
    
    
     const [memes, setMemes] = useState([]);
@@ -16,7 +16,7 @@ function Notifications (props, DarkMode) {
     const { token, setToken } = UseToken();
 
    async function notifyalmostExpired(){
-         let isExpired;
+    let isExpired;
     if(props.data.expiredAt > Date.now() || props.data.expiredAt === -1){
         isExpired = false;
     }
@@ -24,7 +24,8 @@ function Notifications (props, DarkMode) {
         isExpired = true;
     } 
     if (
-        props.data.expiredAt < Date.now() 
+        props.data.expiredAt < Date.now(),
+        isExpired= true 
     ) return 
         store.addNotification({
         title: "Meme about to expire",

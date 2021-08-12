@@ -57,17 +57,17 @@ export default {
             return json;
         }]
     }),
-    putUpdatedUser: (userId) =>
+    putUpdatedUser: ( user, userId)  =>
     instance({
         'method': 'PUT',
-        'url': '/users' + userId,
-        // data: {
-        //      name: user.name,
-        //      email: user.email,
-        //      phone: user.phone,
-        //      username: user.username,
-        //      imageBase64: null
-        //  },
+        'url': '/users/' + userId,
+        data: {
+             name: user.name,
+             email: user.email,
+             phone: user.phone,
+             username: user.username,
+             imageBase64: null
+         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);
             return json;

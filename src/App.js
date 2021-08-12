@@ -37,11 +37,8 @@ function App() {
 	      <Route exact path="/register" component={Register} />
         <Route exact path="/notifications" component={Notifications} />
         <Route exact path="/chats/:name" component={FullConversation} />
-        <Route exact path="/" component={DarkMode} />
-        <Route exact path="/login" component={DarkMode} />
-        <Route exact path="/chats" component={DarkMode} />
-        <Route exact path="/register" component={DarkMode} />
-        <Route exact path="/notifications" component={DarkMode} />
+        
+
 
         
       </div>

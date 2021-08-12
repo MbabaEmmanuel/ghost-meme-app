@@ -3,6 +3,9 @@ import api from '../api/api';
 import Meme from './Meme';
 import Login from './Login';
 import UseToken from './UseToken';
+import ReactNotification from 'react-notifications-component'
+import { store } from 'react-notifications-component';
+
 
 
 function Notifications (props, DarkMode) {
@@ -21,11 +24,23 @@ function Notifications (props, DarkMode) {
         isExpired = true;
     } 
     if (
-       isExpired = true
-    ) 
-    return (
-        <h1>Hola!</h1>   
-    )
+        props.data.expiredAt < Date.now() 
+    ) return 
+        store.addNotification({
+        title: "Meme about to expire",
+        message: "A meme of yours is about to expire",
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 5000,
+          onScreen: true,
+        
+        } 
+      });
+    
         
     
 

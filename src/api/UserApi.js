@@ -50,7 +50,7 @@ export default {
             email: user.email,
             phone: user.phone,
             username: user.username,
-            imageBase64: null
+            imageBase64: user.imageBase64
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);

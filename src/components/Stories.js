@@ -4,6 +4,7 @@ import Meme from './Meme';
 import Pagination from './Pagination';
 import Login from './Login';
 import UseToken from './UseToken';
+import darkmode_component from './DarkMode'
 
 function Stories () {
     const [memes, setMemes] = useState([]);

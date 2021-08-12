@@ -6,9 +6,19 @@ import UserApi from '../api/UserApi';
 
 function Register({ setToken }) {
     const [registerFailureMessage, setRegisterFailureMessage] = useState();
-    
+
     if(!setToken) {
       setToken = UseToken().setToken;
+    }
+
+    async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+
+        return result_base64;
     }
 
     async function handleRegisterValidation(e) {
@@ -18,8 +28,13 @@ function Register({ setToken }) {
       let phoneNumber = e.target[3].value
       let username = e.target[4].value;
       let password = e.target[5].value;
+      let profilePic = e.target[6];
+      let data = '';
 
       let isFormValid = true;
+      if(profilePic != null) {
+          data = readFileAsDataURL(profilePic.files[0]);
+      }
 
       if(firstName === ''){
         setRegisterFailureMessage("First name is required");
@@ -51,8 +66,10 @@ function Register({ setToken }) {
           name: firstName + ' ' + lastName,
           email: email,
           phone: phoneNumber,
-          username: username
+          username: username,
+	  imageBase64: data,
         };
+	
         try {
           let api_response = await UserApi.postNewUser(user);
           console.log(api_response);
@@ -110,6 +127,10 @@ function Register({ setToken }) {
             <p>Password</p>
             <input type="password"/>
           </label>
+	  <label>
+	    <p>Profile Picture (not required)</p>
+	    <input type="file"/>
+	  </label>
           <div>
             <button type="submit">Submit</button>
           </div>

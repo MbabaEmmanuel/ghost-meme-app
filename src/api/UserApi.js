@@ -8,6 +8,10 @@ const instance = axios.create({
     },
 });
 
+// function updatingUserInfo(userId) {
+
+// }
+
 export default {
     getAllUsers: () => 
     instance({
@@ -53,4 +57,20 @@ export default {
             return json;
         }]
     }),
+    putUpdatedUser: (userId) =>
+    instance({
+        'method': 'PUT',
+        'url': '/users' + userId,
+        // data: {
+        //      name: user.name,
+        //      email: user.email,
+        //      phone: user.phone,
+        //      username: user.username,
+        //      imageBase64: null
+        //  },
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            return json;
+        }]
+    })
 }

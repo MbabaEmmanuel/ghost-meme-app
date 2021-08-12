@@ -12,6 +12,7 @@ import { Route, NavLink, Router } from "react-router-dom";
 import UseToken from './components/UseToken';
 import history from "./History";
 import { useEffect} from 'react'
+import EditAccount from './components/EditAccount';
 
 function App() {
   const token = UseToken().token;
@@ -42,6 +43,7 @@ function App() {
         <Route exact path="/logout" component={Logout} />
 	      <Route exact path="/register" component={Register} />
         <Route exact path="/notifications" component={Notifications} />
+        <Route exact path="/editAccount" component={EditAccount} />
         <Route exact path="/chats/:name" component={FullConversation} />
         
 

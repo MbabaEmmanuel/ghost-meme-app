@@ -3,16 +3,21 @@ import '../App.css';
 import UseToken from './UseToken';
 import api from '../api/api';
 import UserApi from '../api/UserApi';
+import userId from './Login'
 
-function EditAccount({ setToken }, props) {
-    const [infoFailureMessage, setInfoFailureMessage] = useState();
-    const userId = props.token.user_id;
+function EditAccount(props) {
+  const { token, setToken } = UseToken();
+  const [infoFailureMessage, setInfoFailureMessage] = useState();
+    // const userId = props.token.userId;
+  
 
     if(!setToken) {
       setToken = UseToken().setToken;
+      
     }
 
     async function handleEditValidation(e) {
+      
       let firstName = e.target[0].value; 
       let lastName = e.target[1].value
       let email = e.target[2].value;
@@ -43,14 +48,15 @@ function EditAccount({ setToken }, props) {
       }
 
       if(isInfoValid) {
-        // let user = {
-        //   name: firstName + ' ' + lastName,
-        //   email: email,
-        //   phone: phoneNumber,
-        //   password: password
-        // };
+        let user = {
+          name: firstName + ' ' + lastName,
+          email: email,
+          phone: phoneNumber,
+          password: password
+        };
         try {
-          let api_response = await UserApi.putUpdatedUser(userId);
+          let userId = token.user_id;
+          let api_response = await UserApi.putUpdatedUser(user, userId);
           console.log(api_response);
           isInfoValid = true;
         } 
@@ -73,7 +79,7 @@ function EditAccount({ setToken }, props) {
       e.preventDefault();
       let isEditValid = await handleEditValidation(e);
       if(isEditValid === true) {
-        setInfoFailureMessage("Registration was successful! Please login to access website.");
+        setInfoFailureMessage("Changes were successful");
 
       }    
     }

@@ -43,12 +43,12 @@ function EditAccount({ setToken }, props) {
       }
 
       if(isInfoValid) {
-        let user = {
-          name: firstName + ' ' + lastName,
-          email: email,
-          phone: phoneNumber,
-          password: password
-        };
+        // let user = {
+        //   name: firstName + ' ' + lastName,
+        //   email: email,
+        //   phone: phoneNumber,
+        //   password: password
+        // };
         try {
           let api_response = await UserApi.putUpdatedUser(userId);
           console.log(api_response);

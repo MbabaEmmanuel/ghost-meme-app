@@ -34,7 +34,7 @@ function generateCommentsUrl(memeIds){
     return "/memes/search?regexMatch=" + myQuery;
 }
 
-function findPublicMemes(memeId) {
+function findPublicMemes() {
     let myQueryObject = { "private": false }
     let myQuery = encodeURIComponent(JSON.stringify(myQueryObject))
     let myURL = "/memes/search?match=" + myQuery

@@ -9,6 +9,8 @@ import './App.css';
 import { Route, NavLink, Router } from "react-router-dom";
 import UseToken from './components/UseToken';
 import history from "./History";
+import DarkMode from './components/DarkMode';
+
 
 function App() {
   const token = UseToken().token;
@@ -20,10 +22,14 @@ function App() {
           <li><NavLink exact to ="/">Stories</NavLink></li>
           <li><NavLink to="/chats">Chats</NavLink></li>
           <li><NavLink to="/notifications">Notifications</NavLink></li>
+          <li><NavLink to="/darkmode">DarkMode</NavLink></li>
           {token ? <li><NavLink to="/logout">Logout</NavLink></li> : null}
           {token ? null : <li><NavLink to="/login">Login</NavLink></li>}
           {token ? null : <li><NavLink to="/register">Register</NavLink></li>}
         </ul>
+      </div>
+      <div>
+       
       </div>
       <div>
         <Route exact path="/" component={Stories} />
@@ -33,8 +39,11 @@ function App() {
 	      <Route exact path="/register" component={Register} />
         <Route exact path="/notifications" component={Notifications} />
         <Route exact path="/chats/:name" component={FullConversation} />
+        <Route exact path="/darkmode" component={DarkMode} />
+        
       </div>
     </Router>
+   
     
   );
 }

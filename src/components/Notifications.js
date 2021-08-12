@@ -3,12 +3,37 @@ import api from '../api/api';
 import Meme from './Meme';
 import Login from './Login';
 import UseToken from './UseToken';
+import darkmode_component from './DarkMode'
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
-function Notifications (props) {
+
+function Notifications (props, DarkMode) {
+   
+   
     const [memes, setMemes] = useState([]);
     const [comments, setComments] = useState([]);
     const { token, setToken } = UseToken();
 
+   async function notifyalmostExpired(){
+         let isExpired;
+    if(props.data.expiredAt > Date.now() || props.data.expiredAt === -1){
+        isExpired = false;
+    }
+    else{
+        isExpired = true;
+    } 
+    if (
+       isExpired = true
+    ) 
+    return (
+        
+    )
+        
+    
+
+   }
+  
 
     // view all memes that are a comment (aka a meme that is a replyTo: (memeId that I own))
     // OR

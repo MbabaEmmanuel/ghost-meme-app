@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useFormState } from 'react-hook-form';
 
 const instance = axios.create({
-    baseURL:' https://ghostmeme.api.hscc.bdpa.org/v1',
+    baseURL:' https://ghostmeme.api.hscc.bdpa.org/v1.1.0',
     headers: {
         'key': 'tc159313-1fa1-4cee-9fdd-984b925628bf',
     },

@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 
 function ChatPreview (props) {
     let fromUser = props.data.OtherUserId;
+    console.log(props.data.MemesConvo);
     return (
         <Link
         to={{
             pathname: "/chats/" + fromUser, 
             state: {
-              memes: props.data.MemesConvo,
-            },
+	        memes: props.data.MemesConvo,
+	    },
           }}
           className="btn btn-primary">
             <div className="chatPreview">

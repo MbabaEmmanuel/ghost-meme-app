@@ -16,7 +16,6 @@ function Meme (props) {
     }
 
     async function manuallyVanishMeme(memeId){
-       // e.preventDefault()
         try{
             await api.updateMeme(memeId, 0);
         }

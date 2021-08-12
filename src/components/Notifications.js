@@ -3,9 +3,6 @@ import api from '../api/api';
 import Meme from './Meme';
 import Login from './Login';
 import UseToken from './UseToken';
-import darkmode_component from './DarkMode'
-import ReactNotification from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
 
 
 function Notifications (props, DarkMode) {
@@ -27,7 +24,7 @@ function Notifications (props, DarkMode) {
        isExpired = true
     ) 
     return (
-        
+        <h1>Hola!</h1>   
     )
         
     

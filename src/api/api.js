@@ -56,7 +56,7 @@ export default {
             private: true,
             replyTo: null,
             imageUrl: meme.imageUrl,
-            imageBase64: meme.imageBase64,
+            imageBase64: null
         },
         transformResponse: [function (data) {
             const json = JSON.parse(data);

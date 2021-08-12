@@ -1,5 +1,5 @@
 import api from '../api/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

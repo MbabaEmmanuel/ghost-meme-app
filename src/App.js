@@ -12,7 +12,6 @@ import { Route, NavLink, Router } from "react-router-dom";
 import UseToken from './components/UseToken';
 import history from "./History";
 import { useEffect} from 'react'
-import EditAccount from './components/EditAccount';
 
 function App() {
   const token = UseToken().token;

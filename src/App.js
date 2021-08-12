@@ -23,6 +23,7 @@ function App() {
           <li><NavLink exact to ="/">Stories</NavLink></li>
           <li><NavLink to="/chats">Chats</NavLink></li>
           <li><NavLink to="/notifications">Notifications</NavLink></li>
+          {token ? <li><NavLink to="/spotlight">Spotlight</NavLink></li> : null}
           {token ? <li><NavLink to="/logout">Logout</NavLink></li> : null}
           {token ? <li><NavLink to="/editAccount">Edit Account</NavLink></li> : null}
           {token ? null : <li><NavLink to="/spotlight">Spotlight</NavLink></li>}

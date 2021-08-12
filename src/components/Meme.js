@@ -1,4 +1,9 @@
 import api from '../api/api';
+import { useState } from 'react';
+import { icon } from '@fortawesome/fontawesome-svg-core';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'react-bootstrap';
 
 function Meme (props) {
     const imageUrl = props.data.imageUrl;
@@ -6,6 +11,8 @@ function Meme (props) {
     const owner = props.data.owner;
     const meme_id = props.data.meme_id;
     const createdAt = new Date(props.data.createdAt);
+    const likes = props.data.likes;
+    const [like, setLike] = useState(likes);
 
     let isExpired;
     if(props.data.expiredAt > Date.now() || props.data.expiredAt === -1){
@@ -24,6 +31,11 @@ function Meme (props) {
         }
     }
 
+    function updateLike() {
+        setLike(like + 1);
+        console.log(like);
+    }
+
     return (
         <div>
             {!isExpired ?
@@ -32,6 +44,19 @@ function Meme (props) {
                     <p>From: {owner}</p>
                     <img src={imageUrl} width="400" />
                     <p>{description}</p>
+                    <small>{likes}</small>
+                    
+                    <div>
+                        <p>
+                        <FontAwesomeIcon 
+                        id="likeIcon" 
+                        icon={faThumbsUp} 
+                        onClick={updateLike}
+                        />
+                        <span> : {like} </span>
+                        </p>
+                    </div>
+
                     <button onClick={() => manuallyVanishMeme(meme_id)} type="button">Vanish!</button>
                 </div> 
                 : 

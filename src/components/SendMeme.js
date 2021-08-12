@@ -6,26 +6,29 @@ function SendMeme(props) {
 
     async function handleMemeSubmit(e) {
         e.preventDefault();
-        let owner = props.token.user_id;
-        let imageUrl = e.target[0].value;
-        let description = e.target[1].value
-        let receiver = e.target[2].value
-        let expiredAt = e.target[3].value
-
-        let meme = {
-            owner: owner,
-            receiver: receiver,
-            expiredAt: parseInt(expiredAt),
-            description: description,
-            private: true,
-            replyTo: null,
-            imageUrl: imageUrl,
-            imageBase64: null
-        };
         try {
+            let owner = props.token.user_id;
+            let imageUrl = e.target[0].value;
+            let description = e.target[1].value
+            let receiver = e.target[2].value
+            let expiredAt = e.target[3].value
+
+            let meme = {
+                owner: owner,
+                receiver: receiver,
+                expiredAt: parseInt(expiredAt),// turn string into int
+                description: description,
+                private: true,
+                replyTo: null,
+                imageUrl: imageUrl,
+                imageBase64: null
+            };
+
             await api.postNewMeme(meme);
-        } catch(err){
-            console.log("The following error has occured " + err)
+            setError("Successfully sent meme!")
+        } 
+        catch(err){
+            console.log(err)
             setError(err.response.data.error)
         }
     }
@@ -43,7 +46,7 @@ function SendMeme(props) {
                 <input type="text"/>
                 </label>
                 <label>
-                <p>Send To User:</p>
+                <p>Send To User (enter user id):</p>
                 <input type="text"/>
                 </label>
                 <label>
@@ -54,7 +57,7 @@ function SendMeme(props) {
                 <button type="Send Meme">Submit</button>
                 </div>
             </form>
-            <p>{error ? "Error posting meme: " + error : null}</p>
+            <p>{error}</p>
         </div>
     );
 }

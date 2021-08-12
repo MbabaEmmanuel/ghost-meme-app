@@ -6,11 +6,10 @@ import UserApi from '../api/UserApi';
 
 function Login({ setToken }) {
     const [failureMessage, setFailureMessage] = useState();
-    const [response, setResponse] = useState();
 
     let userValid = true;
     
-    if(!setToken){
+    if(!setToken){  // setToken == null
       setToken = UseToken().setToken;
     }
 
@@ -37,7 +36,6 @@ function Login({ setToken }) {
       if(userValid) {
         try {
           let userResponse = await UserApi.getUserName(username);
-          setResponse(userResponse.data.user);
           userValid = userResponse.data.user;
         }
         catch(e) {
@@ -45,14 +43,15 @@ function Login({ setToken }) {
           userValid = false;
         }
       }
-      return userValid;
+      return userValid; // return false OR user object from api if successful request
     }
 
     async function handleSubmit(e) {
       e.preventDefault();
       const token = await handleLoginValidation(e);
 
-      if(token) {
+      if(token) // aka (token != null) OR (token != false)
+      { 
           setToken(token);
           history.push("/");
       } else {

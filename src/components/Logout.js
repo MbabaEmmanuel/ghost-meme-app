@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-// import { createBrowserHistory } from "react-router-dom";
 
 function Logout() {
 

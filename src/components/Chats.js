@@ -12,9 +12,12 @@ function Chats() {
 
     return (        
         <div className="chats-wrapper">
-        <SendMeme token={token}/>
-        <ChatView token={token} />
-
+            
+            {/* refreshes page every 5 seconds */}
+            {/* <meta http-equiv="refresh" content="5" /> */}
+            
+            <SendMeme token={token} />
+            <ChatView token={token} />
         </div>
     );
 }

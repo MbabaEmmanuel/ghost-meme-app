@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Meme from './Meme';
-import Pagination from './Pagination';
 import Login from './Login';
 import UseToken from './UseToken';
 
@@ -19,7 +18,7 @@ function Notifications (props) {
         try {
             let userId = token.user_id;
             let username = token.username;
-            const mentionsResponse = await api.getAllUserMentions(username);
+            const mentionsResponse = await api.getAllUserMentions(username); // axios library uses async code
             const myMemesResponse = await api.getMemesSentByUser(userId);
 
             // these are the meme id's I own
@@ -36,6 +35,9 @@ function Notifications (props) {
         }
     }
 
+
+    // useEffect is from React
+    // call api code 
     useEffect(
         () => {
             fetchAllNotifications();
@@ -45,10 +47,6 @@ function Notifications (props) {
     if(!token) {
         return <Login setToken={setToken}/>
     }
-
-    // if(!token) {
-    //     return <Login setToken={setToken}/>
-    // }
 
     return (
         <div>

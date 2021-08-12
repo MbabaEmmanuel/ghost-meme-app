@@ -1,8 +1,8 @@
 import { Button, CloseButton } from 'react-bootstrap';
 import button from 'react';
 import '../App.css';
-import Darkmode from 'darkmode-js';
 import { useEffect} from 'react'
+
 
 function DarkMode() {
     async function clickDarkMode() {
@@ -27,13 +27,12 @@ function DarkMode() {
 
 
     return (
-        <div>
+      
         <button class="btn-toggle">Toggle Dark-Mode</button>
-    <p>Test</p>
+ 
 
-        </div>
+        
     )
-}
-
+    }
 
 export default DarkMode;

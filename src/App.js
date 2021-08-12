@@ -9,8 +9,8 @@ import './App.css';
 import { Route, NavLink, Router } from "react-router-dom";
 import UseToken from './components/UseToken';
 import history from "./History";
-import DarkMode from './components/DarkMode';
-
+import DarkMode from './components/Darkmode';
+import { useEffect} from 'react'
 
 function App() {
   const token = UseToken().token;
@@ -22,7 +22,6 @@ function App() {
           <li><NavLink exact to ="/">Stories</NavLink></li>
           <li><NavLink to="/chats">Chats</NavLink></li>
           <li><NavLink to="/notifications">Notifications</NavLink></li>
-          <li><NavLink to="/darkmode">DarkMode</NavLink></li>
           {token ? <li><NavLink to="/logout">Logout</NavLink></li> : null}
           {token ? null : <li><NavLink to="/login">Login</NavLink></li>}
           {token ? null : <li><NavLink to="/register">Register</NavLink></li>}
@@ -39,13 +38,46 @@ function App() {
 	      <Route exact path="/register" component={Register} />
         <Route exact path="/notifications" component={Notifications} />
         <Route exact path="/chats/:name" component={FullConversation} />
-        <Route exact path="/darkmode" component={DarkMode} />
+        <Route exact path="/" component={DarkMode} />
+        <Route exact path="/login" component={DarkMode} />
+        <Route exact path="/chats" component={DarkMode} />
+        <Route exact path="/register" component={DarkMode} />
+        <Route exact path="/notifications" component={DarkMode} />
+
         
       </div>
     </Router>
-   
-    
-  );
+  )
+   function DarkMode() {
+    async function clickDarkMode() {
+        const btn = document.querySelector(".btn-toggle");
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+        btn.addEventListener("click", function () {
+            if (prefersDarkScheme.matches) {
+                document.body.classList.toggle("light-theme");
+            } else {
+                document.body.classList.toggle("dark-theme");
+            }
+        });
+    }
+
+
+    useEffect(
+        () => {
+            clickDarkMode();
+        }, []
+    )
+
+
+    return (
+      
+        <button class="btn-toggle">Toggle Dark-Mode</button>
+ 
+
+        
+    )
+    };
 }
 
 export default App;

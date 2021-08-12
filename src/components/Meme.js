@@ -33,6 +33,7 @@ function Meme (props) {
 	        api.getCountForID(str).then((dat) => {
                     let realVal = str[i] + " (" + dat.data + ") ";
 		    setDescription(description.replaceAll(str[i], realVal));
+		    console.log(realVal);
 		});
             }
         }

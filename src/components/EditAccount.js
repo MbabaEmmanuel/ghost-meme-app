@@ -6,7 +6,7 @@ import UserApi from '../api/UserApi';
 
 function EditAccount({ setToken }, props) {
     const [infoFailureMessage, setInfoFailureMessage] = useState();
-    const userId = props.user_id;
+    const userId = props.token.user_id;
 
     if(!setToken) {
       setToken = UseToken().setToken;

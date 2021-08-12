@@ -34,6 +34,13 @@ function generateCommentsUrl(memeIds){
     return "/memes/search?regexMatch=" + myQuery;
 }
 
+function findPublicMemes(memeId) {
+    let myQueryObject = { "private": false }
+    let myQuery = encodeURIComponent(JSON.stringify(myQueryObject))
+    let myURL = "/memes/search?match=" + myQuery
+    return myURL;
+}
+
 export default {
     getAllMemes: () => 
     instance({
@@ -110,6 +117,16 @@ export default {
         data: {
             expiredAt: expiredAt
         },
+        transformResponse: [function (data) {
+            const json = JSON.parse(data);
+            console.log(json);
+            return json;
+        }]
+    }),
+    getPublicMemes: (memeId) =>
+    instance({
+        'method': 'GET',
+        'url': findPublicMemes(memeId),
         transformResponse: [function (data) {
             const json = JSON.parse(data);
             console.log(json);

@@ -48,7 +48,7 @@ function App() {
 	      <Route exact path="/register" component={Register} />
         <Route exact path="/editAccount" component={EditAccount} />
         <Route exact path="/notifications" component={Notifications} />
-        <Route exact path="/editAccount" component={EditAccount} />
+
         <Route exact path="/chats/:name" component={FullConversation} />
         
       </div>
